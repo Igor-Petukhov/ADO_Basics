@@ -25,6 +25,7 @@ namespace ADO_Basics
             command.Connection = connection;
             Buttons_activate_or_deactivate(false);
         }
+        
 
         private void buttonUsersCreate_Click(object sender, EventArgs e)
         {
