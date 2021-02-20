@@ -70,8 +70,7 @@ namespace ADO_Basics
             {
                 command.ExecuteNonQuery();
                 MessageBox.Show("CREATE OK");
-                button_Sales_Create.Enabled = true;
-                button_Sales_Drop.Enabled = true;
+                
             }
             catch (SqlException ex)
             {
@@ -86,8 +85,6 @@ namespace ADO_Basics
             {
                 command.ExecuteNonQuery();
                 MessageBox.Show("DROP OK");
-                button_Sales_Create.Enabled = false;
-                button_Sales_Drop.Enabled = false;
             }
             catch (SqlException ex)
             {
@@ -109,7 +106,6 @@ namespace ADO_Basics
             {
                 command.ExecuteNonQuery();
                 MessageBox.Show("CREATE OK");
-                button_Products_Drop.Enabled = false;
             }
             catch (SqlException ex)
             {
@@ -124,7 +120,6 @@ namespace ADO_Basics
             {
                 command.ExecuteNonQuery();
                 MessageBox.Show("DROP OK");
-                button_Products_Drop.Enabled = true;
             }
             catch (SqlException ex)
             {
@@ -139,8 +134,6 @@ namespace ADO_Basics
                 connection.Open();
                 labelConnectionStatus.Text = "Open OK";
                 Buttons_activate_or_deactivate(true);
-                button_Sales_Create.Enabled = false;
-                button_Sales_Drop.Enabled = false;
             }
             catch (Exception ex)
             {
