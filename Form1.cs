@@ -16,6 +16,8 @@ namespace ADO_Basics
     {
         private SqlConnection connection;
         private SqlCommand command;
+
+        public ContextDB context;
         public Form1()
         {
             InitializeComponent();
@@ -23,7 +25,7 @@ namespace ADO_Basics
             connection = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=D:\GoogleDrive\STEP\ADO\Class_work\ADO_Basics\ADO1.mdf;Integrated Security=True");
             command = new SqlCommand();
             command.Connection = connection;
-            Buttons_activate_or_deactivate(false);
+            //Buttons_activate_or_deactivate(false);
             
         }
         
@@ -171,6 +173,171 @@ namespace ADO_Basics
             {
                 if (control is Button)
                     control.Enabled = activated_deactivated;
+            }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                connection.Open();
+                labelConnectionStatus.Text = "Open OK";
+                command.Connection = connection;
+            }
+            catch (Exception ex)
+            {
+                labelConnectionStatus.Text = ex.Message;
+                return;
+            }
+            context = new ContextDB();
+            context.Connection = connection;
+        }
+
+        private void buttonUserInsert_Click(object sender, EventArgs e)
+        {
+            //Получаем имя
+            var nameForm = new NameForm();
+            nameForm.ShowDialog();
+            if (nameForm.Result)
+            {
+                //Создаём объект ORM
+                User u = new User() { Name = nameForm.UserName };
+
+                //Добавляем через метод контекста
+                try
+                {
+                    context.AddUser(u);
+                    MessageBox.Show("Insert OK");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void buttonUserSelect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Users = context.GetUsers(),
+                    workMode = WorkMode.ReadUser
+                }
+                .ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonUserDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Users = context.GetUsers(),
+                    workMode = WorkMode.DeleteUser
+                }
+                .ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonUserUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Users = context.GetUsers(),
+                    workMode = WorkMode.UpdateUser
+                }
+                .ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonProductInsert_Click(object sender, EventArgs e)
+        {
+            //Получаем имя
+            var ProductForm = new ProductForm();
+            ProductForm.ShowDialog();
+            if (ProductForm.Result)
+            {
+                //Создаём объект ORM
+                Product p = new Product() { Name = ProductForm.ProductName, Price = ProductForm.ProductPrice };
+
+                //Добавляем через метод контекста
+                try
+                {
+                    context.AddProduct(p);
+                    MessageBox.Show("Insert OK");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+        }
+
+        private void buttonProductSelect_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Products = context.GetProducts(),
+                    workMode = WorkMode.ReadProduct
+                }
+                .ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonProductUpdate_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Products = context.GetProducts(),
+                    workMode = WorkMode.UpdateProduct
+                }
+                .ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void buttonProductDelete_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                new ResultForm()
+                {
+                    Products = context.GetProducts(),
+                    workMode = WorkMode.DeleteProduct
+                }
+                .ShowDialog(this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
     }

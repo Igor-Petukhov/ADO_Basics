@@ -19,5 +19,5 @@ CREATE TABLE Sales(
 	moment DATE NOT NULL
 	)
 
-DROP TABLE Sales
+--DROP TABLE Sales
 
